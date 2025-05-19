@@ -1,23 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Quizlet to Blooket Converter</title>
+  <title>Convert to Blooket</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    input, select, button {
+      margin: 10px;
+      padding: 10px;
+      width: 300px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Paste Your Quizlet Link</h1>
-  <form id="quizlet-form">
-    <input type="text" id="quizlet-link" placeholder="Enter public Quizlet link" required>
-    <button type="submit">Convert</button>
-  </form>
-  <div id="output"></div>
+  <h1>🧠 Convert Study Sets to Blooket</h1>
+  <p>Select a source and paste a public link:</p>
+
+  <select id="platform">
+    <option value="quizlet">Quizlet</option>
+    <option value="kahoot">Kahoot</option>
+    <option value="quizizz">Quizizz</option>
+  </select><br>
+
+  <input type="text" id="link" placeholder="Paste your public quiz link"><br>
+  <button onclick="convert()">Convert</button>
+
+  <p id="status"></p>
+  <p id="output"></p>
 
   <script>
-    document.getElementById("quizlet-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const link = document.getElementById("quizlet-link").value;
-      // Example simulation
-      document.getElementById("output").innerText = "Pretending to convert " + link + " into a Blooket game...";
-    });
+    async function convert() {
+      const platform = document.getElementById('platform').value;
+      const link = document.getElementById('link').value;
+      const status = document.getElementById('status');
+      const output = document.getElementById('output');
+      
+      status.textContent = "🔄 Converting...";
+      output.textContent = "";
+
+      try {
+        const response = await fetch("https://your-backend-url.com/convert", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ platform, link })
+        });
+
+        const data = await response.json();
+        if (data.blooketLink) {
+          status.textContent = "✅ Success!";
+          output.innerHTML = `<a href="${data.blooketLink}" target="_blank">Click here to study on Blooket!</a>`;
+        } else {
+          status.textContent = "⚠️ Conversion failed.";
+        }
+      } catch (err) {
+        status.textContent = "❌ Error: Could not reach server.";
+      }
+    }
   </script>
 </body>
 </html>
