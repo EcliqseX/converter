@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quizlet to Blooket Converter</title>
+</head>
+<body>
+  <h1>Paste Your Quizlet Link</h1>
+  <form id="quizlet-form">
+    <input type="text" id="quizlet-link" placeholder="Enter public Quizlet link" required>
+    <button type="submit">Convert</button>
+  </form>
+  <div id="output"></div>
+
+  <script>
+    document.getElementById("quizlet-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const link = document.getElementById("quizlet-link").value;
+      // Example simulation
+      document.getElementById("output").innerText = "Pretending to convert " + link + " into a Blooket game...";
+    });
+  </script>
+</body>
+</html>
